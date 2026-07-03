@@ -1,26 +1,38 @@
-/* =========================================================
-   AI RESEARCH STUDIO — APPLICATION SCRIPT
-   Modules:
-   1. App bootstrap
-   2. Background particles
-   3. Navbar (scroll state + mobile menu)
-   4. Smooth scroll / active link tracking
-   5. Hero typing animation
-   6. Scroll reveal (IntersectionObserver)
-   7. Stat counters
-   8. Button ripple
-   9. Research form + validation
-   10. Loading sequence
-   11. Report generation + rendering
-   12. Copy / download report
-   13. Toast notifications
-   14. Back-to-top
-   ========================================================= */
 
 (function () {
   'use strict';
 
-  /* ---------- 1. APP BOOTSTRAP ---------- */
+
+
+function parseReportSections(markdown) {
+  if (!markdown) return {};
+
+  // Split on "## Heading" lines, keep the heading text as the key
+  const parts = markdown.split(/\n(?=## )/g);
+  const sections = {};
+
+  parts.forEach((part) => {
+    const match = part.match(/^## (.+)\n([\s\S]*)/);
+    if (!match) return;
+    const heading = match[1].trim().toLowerCase();
+    const body = match[2].trim();
+    sections[heading] = body;
+  });
+
+  return sections;
+}
+
+function bulletsToArray(text) {
+  if (!text) return [];
+  return text
+    .split('\n')
+    .filter((line) => line.trim().startsWith('- '))
+    .map((line) => line.trim().replace(/^- /, ''));
+}
+
+
+
+  /*  APP BOOTSTRAP  */
   function initApp() {
     document.getElementById('year').textContent = new Date().getFullYear();
     initParticles();
@@ -37,7 +49,7 @@
 
   document.addEventListener('DOMContentLoaded', initApp);
 
-  /* ---------- 2. BACKGROUND PARTICLES ---------- */
+  /* BACKGROUND PARTICLES */
   function initParticles() {
     const container = document.getElementById('particles');
     if (!container) return;
@@ -59,7 +71,7 @@
     container.appendChild(frag);
   }
 
-  /* ---------- 3. NAVBAR ---------- */
+  /* NAVBAR */
   function initNavbar() {
     const navbar = document.getElementById('navbar');
     const hamburger = document.getElementById('hamburger');
@@ -93,7 +105,7 @@
     });
   }
 
-  /* ---------- 4. SMOOTH SCROLL ---------- */
+  /*SMOOTH SCROLL */
   function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener('click', (e) => {
@@ -114,7 +126,7 @@
     window.scrollTo({ top, behavior: 'smooth' });
   }
 
-  /* ---------- 5. HERO TYPING ANIMATION ---------- */
+  /* HERO TYPING ANIMATION */
   function initTypingHero() {
     const line2 = document.getElementById('typedLine2');
     const line3 = document.getElementById('typedLine3');
@@ -157,7 +169,7 @@
     })();
   }
 
-  /* ---------- 6. SCROLL REVEAL ---------- */
+  /* SCROLL REVEAL */
   function initScrollReveal() {
     const targets = document.querySelectorAll('.fade-up, .fade-left, .fade-right, .blur-in');
     if (!('IntersectionObserver' in window)) {
@@ -186,7 +198,7 @@
     targets.forEach((t) => observer.observe(t));
   }
 
-  /* ---------- 7. STAT COUNTERS ---------- */
+  /* STAT COUNTERS */
   function initStatCounters() {
     const counters = document.querySelectorAll('.stat-number');
     if (!counters.length) return;
@@ -222,7 +234,7 @@
     requestAnimationFrame(frame);
   }
 
-  /* ---------- 8. BUTTON RIPPLE ---------- */
+  /* BUTTON RIPPLE */
   function initRippleButtons() {
     document.querySelectorAll('.btn').forEach((btn) => {
       btn.addEventListener('click', (e) => {
@@ -239,7 +251,7 @@
     });
   }
 
-  /* ---------- 9. RESEARCH FORM ---------- */
+  /* RESEARCH FORM */
   const STEP_LABELS_DURATIONS = [900, 1100, 1400, 1600, 1300, 1500, 900, 700]; // ms per step
 
   function initResearchForm() {
@@ -288,7 +300,7 @@
     return topic.length >= 5;
   }
 
-  /* ---------- 10. LOADING SEQUENCE ---------- */
+  /*LOADING SEQUENCE  */
   function runResearchPipeline(payload) {
     const formState = document.getElementById('formState');
     const loadingState = document.getElementById('loadingState');
@@ -370,16 +382,112 @@
     document.getElementById('progressBarFill').style.width = '0%';
   }
 
-  /* ---------- 11. REPORT GENERATION + RENDERING ---------- */
-  function finishResearch(payload) {
-    const report = buildReportData(payload);
-    renderReport(report);
+  /* REPORT GENERATION + RENDERING */
 
+
+    async function generateResearch(payload) {
+  const PRODUCTION_URL = "https://nidafatima819.app.n8n.cloud/webhook/research"; 
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 min safety timeout
+
+  try {
+    const response = await fetch(PRODUCTION_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Server responded with ${response.status}`);
+    }
+
+    const text = await response.text();
+    if (!text) {
+      throw new Error("Empty response body from server");
+    }
+
+    return JSON.parse(text);
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err.name === "AbortError") {
+      throw new Error("Request timed out — the report may still be generating.");
+    }
+    throw err;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+    async function finishResearch(payload) {
+
+  try {
+
+    // Call the n8n workflow
+    const response = await generateResearch(payload);
+
+    console.log("Research Response:", response);
+
+    
+    showToast("Research generated successfully!", "success");
+
+  } catch (error) {
+
+    console.error(error);
+    showToast("Failed to generate research.", "error");
+
+  } finally {
+
+    resetToFormState();
+
+  }
+
+} */
+
+
+
+
+async function finishResearch(payload) {
+  try {
+    const response = await generateResearch(payload);
+
+    // Fill in the report title and body
+    document.getElementById('resultTopicTitle').textContent = truncate(payload.topic, 60);
+    document.getElementById('reportTopicText').textContent = payload.topic;
+    document.getElementById('reportSummary').innerHTML = simpleMarkdownToHtml(response.report);
+
+    // Store it so copy/download buttons can use it later
+    window.__currentReport = {
+      topic: payload.topic,
+      raw: response.report,
+      docUrl: response.docUrl
+    };
+
+    // Wire up the "Open Doc" button to the real Google Doc link
+    
+    document.getElementById('openDocBtn').onclick = () => window.open(response.docUrl, '_blank');
+
+    // Switch from form view to results view
+    
     document.getElementById('research').hidden = true;
     const resultsSection = document.getElementById('results');
     resultsSection.hidden = false;
 
-    // reset reveal state for report cards so they animate in
     resultsSection.querySelectorAll('.fade-up').forEach((el) => el.classList.remove('is-visible'));
     requestAnimationFrame(() => {
       resultsSection.querySelectorAll('.fade-up').forEach((el, i) => {
@@ -389,8 +497,15 @@
 
     scrollToId('results');
     showToast('Your research report is ready.', 'success');
+
+  } catch (error) {
+    console.error(error);
+    showToast('Failed to generate research.', 'error');
+  } finally {
     resetToFormState();
   }
+}
+
 
   function buildReportData(payload) {
     const topic = payload.topic;
@@ -401,8 +516,8 @@
       meta: [capitalize(payload.depth) + ' depth', capitalize(payload.style) + ' style', capitalize(payload.length) + ' length', new Date().toLocaleDateString()],
       summary: `This report examines "${topic}", synthesizing current sources to map the landscape, ` +
         `surface the strongest evidence, and translate findings into concrete next steps. ` +
-        `The research draws on recent, credible sources and weighs competing perspectives before reaching its conclusions.`,
-      findings: [
+        `The research draws on recent, credible sources and weighs competing perspectives before reaching its conclusions.`
+     /* findings: [
         `Adoption of ${topic.toLowerCase()} is accelerating faster than most public forecasts anticipated.`,
         `The strongest evidence points to efficiency gains as the primary near-term driver of change.`,
         `Regulatory and ethical questions remain the largest source of uncertainty going forward.`,
@@ -433,9 +548,63 @@
         { title: 'Peer-reviewed analysis of recent developments', domain: 'journal-archive.edu' },
         { title: 'Market data and forecasts', domain: 'research-data.com' },
         { title: 'Regulatory and policy tracker', domain: 'policy-watch.gov' }
-      ]
+      ] */
     };
   }
+
+
+
+
+
+
+  function simpleMarkdownToHtml(md) {
+  if (!md) return '';
+  let html = escapeHtml(md);
+
+  // Headings (###, ##, #)
+  html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+  html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+  html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+  // Bold
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+  // Bullet lists (lines starting with "- ") 
+  
+  html = html.replace(/(?:^|\n)((?:- .*(?:\n|$))+)/g, (match) => {
+    const items = match.trim().split('\n').map(line => `<li>${line.replace(/^- /, '')}</li>`).join('');
+    return `<ul>${items}</ul>`;
+  }); 
+
+  // Remaining line breaks → paragraphs
+  
+  html = html.replace(/\n{2,}/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+
+  return `<p>${html}</p>`;
+}
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   function renderReport(report) {
     document.getElementById('resultTopicTitle').textContent = truncate(report.topic, 60);
@@ -509,7 +678,7 @@
     document.getElementById('openDocBtn').onclick = () => showToast('Opening Google Document…', 'info');
   }
 
-  /* ---------- 12. COPY / DOWNLOAD REPORT ---------- */
+  /* COPY / DOWNLOAD REPORT*/
   function initCopyDownload() {
     ['copyReportBtn', 'copyReportBtn2'].forEach((id) => {
       const btn = document.getElementById(id);
@@ -529,7 +698,7 @@
     lines.push('EXECUTIVE SUMMARY');
     lines.push(report.summary);
     lines.push('');
-    lines.push('KEY FINDINGS');
+   /* lines.push('KEY FINDINGS');
     report.findings.forEach((f) => lines.push('- ' + f));
     lines.push('');
     lines.push('CHALLENGES');
@@ -543,7 +712,7 @@
     lines.push('');
     lines.push('REFERENCES');
     report.references.forEach((r) => lines.push('- ' + r.title + ' (' + r.domain + ')'));
-    return lines.join('\n');
+    return lines.join('\n'); */
   }
 
   async function copyReportToClipboard() {
@@ -574,7 +743,7 @@
     showToast('Report downloaded.', 'success');
   }
 
-  /* ---------- 13. TOAST NOTIFICATIONS ---------- */
+  /* TOAST NOTIFICATIONS */
   function showToast(message, type) {
     const stack = document.getElementById('toastStack');
     if (!stack) return;
@@ -591,7 +760,7 @@
     }, 3200);
   }
 
-  /* ---------- 14. BACK TO TOP ---------- */
+  /* BACK TO TOP  */
   function initBackToTop() {
     const btn = document.getElementById('backToTop');
     const onScroll = () => btn.classList.toggle('is-visible', window.scrollY > 500);
@@ -600,7 +769,7 @@
     btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
-  /* ---------- UTILITIES ---------- */
+  /* UTILITIES  */
   function capitalize(str) {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1);

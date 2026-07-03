@@ -1,102 +1,320 @@
-/* Animations extracted from original stylesheet */
+@keyframes driftA {
 
-@keyframes driftA{
-  0%,100%{ transform:translate(0,0) scale(1); }
-  50%{ transform:translate(60px,50px) scale(1.1); }
-}
-@keyframes driftB{
-  0%,100%{ transform:translate(0,0) scale(1); }
-  50%{ transform:translate(-50px,60px) scale(1.15); }
-}
-@keyframes driftC{
-  0%,100%{ transform:translate(0,0) scale(1); }
-  50%{ transform:translate(40px,-40px) scale(1.08); }
-}
-@keyframes particleFloat{
-  0%{ transform:translateY(0) translateX(0); opacity:0; }
-  10%{ opacity:1; }
-  90%{ opacity:1; }
-  100%{ transform:translateY(-120vh) translateX(20px); opacity:0; }
-}
-@keyframes gradientShift{
-  to{ background-position:200% center; }
-}
-@keyframes pulseDot{
-  0%,100%{ opacity:1; transform:scale(1); }
-  50%{ opacity:.5; transform:scale(.85); }
-}
-@keyframes pulseCore{
-  0%,100%{ transform:scale(1); }
-  50%{ transform:scale(1.12); }
-}
-@keyframes pulseRing{
-  0%{ transform:scale(1); opacity:.8; }
-  100%{ transform:scale(2.4); opacity:0; }
-}
-@keyframes spin{
-  to{ transform:rotate(360deg); }
-}
-@keyframes growBar{
-  from{ transform:scaleY(0); transform-origin:bottom; }
-  to{ transform:scaleY(1); transform-origin:bottom; }
-}
-@keyframes scrollCue{
-  0%{ transform:translateY(0); opacity:1; }
-  70%{ opacity:0; }
-  100%{ transform:translateY(16px); opacity:0; }
-}
-@keyframes rippleAnim{
-  to{ transform:scale(3.2); opacity:0; }
-}
-@keyframes dotBlink{
-  0%,80%,100%{ opacity:0; }
-  40%{ opacity:1; }
-}
-@keyframes toastIn{
-  from{ opacity:0; transform:translateY(14px) scale(.96); }
-  to{ opacity:1; transform:translateY(0) scale(1); }
-}
-@keyframes toastOut{
-  to{ opacity:0; transform:translateY(10px) scale(.96); }
-}
-@keyframes floatSlow{
-  0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-14px); }
-}
-@keyframes floatMed{
-  0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-10px); }
-}
-@keyframes floatFast{
-  0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-7px); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(60px, 50px) scale(1.1);
+  }
 }
 
-@keyframes bubbleIn{ to{ opacity:1; transform:translateY(0) scale(1); } }
-@keyframes caretBlink{ 0%,100%{ opacity:1; } 50%{ opacity:0; } }
-@keyframes sendPulse{
-  0%{ transform:scale(1); }
-  40%{ transform:scale(.82); box-shadow:0 0 0 10px rgba(59,130,246,0); }
-  100%{ transform:scale(1); }
+@keyframes driftB {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(-50px, 60px) scale(1.15);
+  }
 }
-@keyframes dotBlink{ 0%,80%,100%{ opacity:0; } 40%{ opacity:1; } }
-.float-slow{ animation:floatSlow 6s ease-in-out infinite; }
-.float-med{ animation:floatMed 5s ease-in-out infinite; animation-delay:.4s; }
-.float-fast{ animation:floatFast 4s ease-in-out infinite; animation-delay:.8s; }
+
+@keyframes driftC {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(40px, -40px) scale(1.08);
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-120vh) translateX(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes gradientShift {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes pulseDot {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .5;
+    transform: scale(.85);
+  }
+}
+
+@keyframes pulseCore {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(1);
+    opacity: .8;
+  }
+
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes growBar {
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+
+  to {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes scrollCue {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+}
+
+@keyframes rippleAnim {
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+@keyframes dotBlink {
+
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(.96);
+  }
+}
+
+@keyframes floatSlow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes floatMed {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes floatFast {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes bubbleIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes caretBlink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes sendPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(.82);
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes dotBlink {
+
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
+
+.float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.float-med {
+  animation: floatMed 5s ease-in-out infinite;
+  animation-delay: .4s;
+}
+
+.float-fast {
+  animation: floatFast 4s ease-in-out infinite;
+  animation-delay: .8s;
+}
 
 /* Scroll reveal (JS toggles .is-visible via IntersectionObserver) */
-.fade-up{ opacity:0; transform:translateY(28px); transition:opacity .7s var(--ease), transform .7s var(--ease); }
-.fade-up.is-visible{ opacity:1; transform:translateY(0); }
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
 
-.fade-left{ opacity:0; transform:translateX(36px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
-.fade-left.is-visible{ opacity:1; transform:translateX(0); }
+.fade-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-.fade-right{ opacity:0; transform:translateX(-36px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
-.fade-right.is-visible{ opacity:1; transform:translateX(0); }
+.fade-left {
+  opacity: 0;
+  transform: translateX(36px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
 
-.blur-in{ opacity:0; filter:blur(10px); transition:opacity .7s var(--ease), filter .7s var(--ease); }
-.blur-in.is-visible{ opacity:1; filter:blur(0); }
+.fade-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-right {
+  opacity: 0;
+  transform: translateX(-36px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
+
+.fade-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.blur-in {
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity .7s var(--ease), filter .7s var(--ease);
+}
+
+.blur-in.is-visible {
+  opacity: 1;
+  filter: blur(0);
+}
 
 /* stagger children of grids when parent section becomes visible */
 .stats-grid .stat-card,
-.features-grid .feature-card{ transition-delay:calc(var(--i,0) * 70ms); }
+.features-grid .feature-card {
+  transition-delay: calc(var(--i, 0) * 70ms);
+}

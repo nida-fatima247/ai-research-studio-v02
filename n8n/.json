@@ -1,0 +1,301 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4fe549b8-fb33-4e63-906c-527ef992097b",
+              "name": "topic",
+              "value": "={{ $json.body.topic }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "65962218-c362-4fe9-b2da-01db76663d19",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"api_key\": \"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\",\n  \"query\": \"{{ $json.topic }}\",\n  \"search_depth\": \"basic\",\n  \"max_results\": 5\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "31ed89fa-22ef-41fe-b31c-20faf54d0a9b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "==You are a senior research analyst producing a structured research report for a professional audience.\n\nUse ONLY the information found in the Search Results provided below. Do not invent facts, statistics, or sources. If the search results don't cover something, write \"Not available in current sources\" instead of guessing.\n\nWrite your entire response in the EXACT markdown structure below. Do not skip any section. Do not add extra sections. Do not use em dashes. Do not use emojis.\n\n## Executive Summary\nWrite 2-3 short paragraphs (3-4 sentences each) summarizing the topic, why it matters right now, and the overall conclusion of this report.\n\n## Key Findings\n- Write 4-5 bullet points, each one a specific, concrete finding from the search results\n- Each bullet must be a single clear sentence, not a paragraph\n\n## Key Statistics\n- Extract 3-4 real numbers, percentages, or figures directly from the search results\n- Format each as: **Label:** value — one short sentence of context\n- If the search results contain no real statistics, write \"No specific statistics available in current sources\" as the only bullet\n\n## Challenges\n- Write 3-4 bullet points describing the main obstacles, risks, or open problems related to this topic\n- Base these only on what the search results indicate, not assumptions\n\n## Future Trends\n- Near term (0-12 months): one sentence\n- Mid term (1-3 years): one sentence\n- Long term (3+ years): one sentence\n\n## Recommendations\n- Write 3-4 bullet points with practical, actionable next steps someone could take based on this research\n- Keep each one specific and short, not generic advice\n\n## Sources\n- List each source used, one per bullet, in the format: Title — domain\n- Only include sources that were actually present in the search results below\n\nFormatting rules:\n- Use \"## \" for every section heading exactly as shown above, nothing else\n- Use \"- \" for every bullet point, never numbered lists\n- Use **bold** only for the statistic labels in Key Statistics\n- Keep tone analytical, neutral, and professional\n- Prioritize clarity over length\n\nTopic:\n{{ $node[\"Edit Fields\"].json.topic }}\n\nSearch Results:\n{{ JSON.stringify($('HTTP Request').item.json.results) }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "cb6c9b30-ad30-43e1-9f6a-7eb8b89cb586",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-chat-v3-0324",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        496,
+        208
+      ],
+      "id": "f0291751-b9a6-430d-b3bc-32158bdea6ed",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "CcS2R8YrEDpVVozR",
+          "name": "OpenRouter account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "=default",
+        "title": "=AI Research - {{ $node[\"Edit Fields\"].json.topic }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        976,
+        0
+      ],
+      "id": "9f9b11cb-3496-4ed5-b7f5-8423a955c3eb",
+      "name": "Create a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "l0jnCtzOjXnjOa0T",
+          "name": "Google Docs OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $node[\"Create a document\"].json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('AI Agent').item.json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        0
+      ],
+      "id": "d911043b-36eb-44ee-b18e-99bc46d839e0",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "l0jnCtzOjXnjOa0T",
+          "name": "Google Docs OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "research",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3c3998ad-49de-4539-83f6-314c14f97ade",
+      "name": "Webhook",
+      "webhookId": "e18cbbe1-fc53-4a72-8b07-66c17d50e94d"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1600,
+        0
+      ],
+      "id": "1e496aa0-aa60-4640-a5a0-33b513f7ecf3",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3803698f-c066-4f83-b8ae-87008faaa72d",
+              "name": "success",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "0534af79-3c74-4ae6-9dee-ec2b5b486545",
+              "name": "report",
+              "value": "={{ $('AI Agent').item.json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "ff94d0bd-2be7-4820-b522-a635acc3bf32",
+              "name": "docUrl",
+              "value": "={{ 'https://docs.google.com/document/d/' + $('Create a document').item.json.id + '/edit' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1392,
+        0
+      ],
+      "id": "3abb67ca-1bc2-4b7f-9a13-9635dbabc713",
+      "name": "Build Response"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Create a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a document": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Build Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "67136dbb-de4c-4573-b570-f56d3b6fa522",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a2def4efb69de9cddf9e067d4cff18cd3fe525b02db986a90dcdea8fe41d8e73"
+  },
+  "nodeGroups": [],
+  "id": "EcUW1WpjbSDI59fq",
+  "tags": []
+}
