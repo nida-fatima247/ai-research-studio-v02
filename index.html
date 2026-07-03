@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<!-- ================= BACKGROUND LAYER ================= -->
+<!-- BACKGROUND LAYER -->
 <div class="bg-layer" aria-hidden="true">
   <div class="bg-grid"></div>
   <div class="blob blob-a"></div>
@@ -23,10 +23,9 @@
   <div class="particles" id="particles"></div>
 </div>
 
-<!-- ================= SKIP LINK ================= -->
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- ================= NAVBAR ================= -->
+<!-- NAVBAR -->
 <header class="navbar" id="navbar">
   <div class="navbar-inner">
     <a href="#home" class="brand">
@@ -52,10 +51,10 @@
     </nav>
 
     <div class="navbar-actions">
-      <a href="https://github.com" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">
+      <a href="https://github.com/nida-fatima247/" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.9-.39 2.88-.39.98 0 1.96.13 2.88.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.07.78 2.16 0 1.56-.01 2.82-.01 3.2 0 .31.21.66.79.55A10.52 10.52 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg>
       </a>
-      <a href="https://linkedin.com" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">
+      <a href="https://www.linkedin.com/in/nida-fatima-247jb/" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5a2 2 0 1 1-4-.02 2 2 0 0 1 4 .02ZM3.2 8.75h3.48V21H3.2V8.75Zm6.02 0h3.34v1.68h.05c.47-.87 1.6-1.79 3.3-1.79 3.53 0 4.18 2.33 4.18 5.35V21h-3.48v-5.4c0-1.29-.02-2.94-1.79-2.94-1.8 0-2.07 1.4-2.07 2.85V21H9.22V8.75Z"/></svg>
       </a>
       <button class="btn btn-generate btn-sm" id="navGenerateBtn" type="button">
@@ -71,13 +70,13 @@
 
 <main id="main">
 
-  <!-- ================= HERO ================= -->
+  <!-- HERO -->
   <section class="hero" id="home">
     <div class="hero-inner">
       <div class="hero-content fade-up">
         <p class="eyebrow">
-          <span class="eyebrow-dot"></span>
-          Now generating reports across 50+ domains
+          
+           generating reports across 50+ domains
         </p>
         <h1 class="hero-title">
           <span class="line" id="typedLine1">Research faster.</span>
@@ -85,7 +84,7 @@
           <span class="line gradient-text" id="typedLine3"></span>
         </h1>
         <p class="hero-sub">
-          Generate comprehensive AI-powered research reports in minutes — sourced, cited,
+          Generate comprehensive AI-powered research reports in minutes. Sourced, cited
           and structured for the way you actually work.
         </p>
         <div class="hero-actions">
@@ -106,11 +105,11 @@
         </div>
       </div>
 
-      <div class="hero-visual fade-left" aria-hidden="true">
+     <div class="hero-visual fade-left" aria-hidden="true">
         <div class="orbit-ring ring-1"></div>
-        <div class="orbit-ring ring-2"></div>
+        <div class="orbit-ring ring-2"></div> 
 
-        <div class="dash-card dash-card-main float-slow">
+     <!--   <div class="dash-card dash-card-main float-slow">
           <div class="dash-card-head">
             <div class="dash-dot-group"><span></span><span></span><span></span></div>
             <span class="dash-card-title">research.ai</span>
@@ -137,9 +136,33 @@
             <span style="--h:75%"></span><span style="--h:60%"></span><span style="--h:90%"></span>
             <span style="--h:65%"></span>
           </div>
-        </div>
+        </div> 
 
-        <div class="dash-card dash-card-float dash-card-a float-med">
+    -->
+
+
+
+       
+  <div class="chat-card float-slow">
+    <div class="chat-card-head">
+      <div class="dash-dot-group"><span></span><span></span><span></span></div>
+      <span class="dash-card-title">research.ai studio</span>
+    </div>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="chat-input-row">
+      <div class="chat-input" id="chatInput">
+        <span id="chatTypedText"></span><span class="chat-caret" id="chatCaret"></span>
+      </div>
+      <button class="chat-send-btn" id="chatSendBtn" type="button" tabindex="-1">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+
+   <!--     <div class="dash-card dash-card-float dash-card-a float-med">
           <span class="pill pill-success">Accuracy 98%</span>
         </div>
         <div class="dash-card dash-card-float dash-card-b float-fast">
@@ -147,13 +170,15 @@
         </div>
         <div class="dash-card dash-card-float dash-card-c float-slow">
           <div class="mini-row"><span class="mini-icon mini-icon-purple">✦</span><span>Insight generated</span></div>
-        </div>
+        </div>  -->
+
+
       </div>
     </div>
-    <div class="scroll-cue" aria-hidden="true"><span></span></div>
+    
   </section>
 
-  <!-- ================= STATS ================= -->
+  <!-- STATS -->
   <section class="stats-section" aria-label="Platform statistics">
     <div class="section-inner stats-grid">
       <div class="stat-card fade-up">
@@ -175,20 +200,20 @@
     </div>
   </section>
 
-  <!-- ================= FEATURES ================= -->
+  <!--  FEATURES  -->
   <section class="features-section" id="features">
     <div class="section-inner">
       <div class="section-head fade-up">
         <p class="eyebrow eyebrow-center"><span class="eyebrow-dot"></span>Capabilities</p>
         <h2 class="section-title">Everything research needs, in one studio</h2>
-        <p class="section-sub">From raw web signal to a polished, cited report — the studio handles every step.</p>
+        <p class="section-sub">From raw web signal to a polished, cited report. The studio handles every step.</p>
       </div>
 
       <div class="features-grid">
         <article class="feature-card fade-up">
           <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
           <h3>AI Research</h3>
-          <p>Autonomous agents plan, search, and synthesize across hundreds of sources.</p>
+          <p>Autonomous agents plan, search and synthesize across hundreds of sources.</p>
         </article>
         <article class="feature-card fade-up">
           <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 2v10l7 5"/></svg></div>
@@ -198,7 +223,7 @@
         <article class="feature-card fade-up">
           <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
           <h3>Google Docs Export</h3>
-          <p>Every report lands as a clean, shareable Google Document — ready to send.</p>
+          <p>Every report lands as a clean, shareable Google Document, ready to send.</p>
         </article>
         <article class="feature-card fade-up">
           <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 4h9l5 5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"/><path d="M9 13h6M9 17h6"/></svg></div>
@@ -218,7 +243,7 @@
         <article class="feature-card fade-up">
           <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
           <h3>Key Findings</h3>
-          <p>The signal, distilled — no digging through raw source material.</p>
+          <p>The signal, distilled. No digging through raw source material.</p>
         </article>
         <article class="feature-card fade-up">
           <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 18l6-6-6-6"/></svg></div>
@@ -229,12 +254,12 @@
     </div>
   </section>
 
-  <!-- ================= RESEARCH FORM ================= -->
+  <!--  RESEARCH FORM  -->
   <section class="research-section" id="research">
     <div class="section-inner">
       <div class="research-card glass fade-up">
 
-        <!-- ---- FORM STATE ---- -->
+        <!--  FORM STATE - -->
         <div class="research-state" id="formState">
           <div class="research-head">
             <h2 class="section-title">Start Your Research</h2>
@@ -293,7 +318,7 @@
           </form>
         </div>
 
-        <!-- ---- LOADING STATE ---- -->
+        <!-- LOADING STATE  -->
         <div class="research-state loading-state" id="loadingState" hidden>
           <div class="loader-head">
             <div class="loader-ring-wrap">
@@ -329,7 +354,7 @@
     </div>
   </section>
 
-  <!-- ================= RESULTS ================= -->
+  <!--  RESULTS  -->
   <section class="results-section" id="results" hidden>
     <div class="section-inner results-layout">
 
@@ -420,7 +445,7 @@
     </div>
   </section>
 
-  <!-- ================= ABOUT ================= -->
+  <!--  ABOUT  -->
   <section class="about-section" id="about">
     <div class="section-inner about-inner">
       <div class="fade-up">
@@ -428,21 +453,21 @@
         <h2 class="section-title">Built for people who research for a living</h2>
         <p class="section-sub">
           AI Research Studio pairs autonomous research agents with a disciplined report format,
-          so what comes out the other end is something you can hand to a client or a board —
-          not a wall of text you still have to edit.
+          so what comes out the other end is something you can hand to a client or a board.
+          Not a wall of text you still have to edit.
         </p>
       </div>
       <div class="about-points fade-up">
-        <div class="about-point"><span class="about-point-num">01</span><p>Every source is fetched, read, and weighed before it's cited.</p></div>
-        <div class="about-point"><span class="about-point-num">02</span><p>Reports follow a consistent structure — summary, findings, trends, recommendations.</p></div>
-        <div class="about-point"><span class="about-point-num">03</span><p>Export straight to Google Docs, PDF, or your clipboard.</p></div>
+        <div class="about-point"><span class="about-point-num">01</span><p>Every source is fetched, rea and weighed before it's cited.</p></div>
+        <div class="about-point"><span class="about-point-num">02</span><p>Reports follow a consistent structure: summary, findings, trends, recommendations.</p></div>
+        <div class="about-point"><span class="about-point-num">03</span><p>Export straight to Google Docs, PDF or your clipboard.</p></div>
       </div>
     </div>
   </section>
 
 </main>
 
-<!-- ================= FOOTER ================= -->
+<!--  FOOTER  -->
 <footer class="footer" id="contact">
   <div class="section-inner footer-inner">
     <div class="footer-brand">
@@ -476,12 +501,12 @@
   </div>
 </footer>
 
-<!-- ================= BACK TO TOP ================= -->
+<!--  BACK TO TOP  -->
 <button class="back-to-top" id="backToTop" aria-label="Back to top">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 
-<!-- ================= NOTIFICATIONS ================= -->
+<!--  NOTIFICATIONS  -->
 <div class="toast-stack" id="toastStack" aria-live="polite"></div>
 
 <script src="js/script.js"></script>

@@ -27,6 +27,7 @@
     initNavbar();
     initSmoothScroll();
     initTypingHero();
+    initHeroChatDemo();
     initScrollReveal();
     initStatCounters();
     initRippleButtons();
@@ -618,3 +619,85 @@
   // wire up copy/download once DOM is ready (elements exist before results shown)
   document.addEventListener('DOMContentLoaded', initCopyDownload);
 })();
+
+function initHeroChatDemo() {
+  const typedEl = document.getElementById('chatTypedText');
+  const inputEl = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('chatSendBtn');
+  const messagesEl = document.getElementById('chatMessages');
+  if (!typedEl || !inputEl || !sendBtn || !messagesEl) return;
+
+  const QUESTION = 'What is AI Research Studio?';
+  const ANSWER = 'Your AI-powered personal research assistant, turning complex data into clear insights faster.';
+  
+
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  function typeIntoInput(text) {
+    return new Promise((resolve) => {
+      let i = 0;
+      typedEl.textContent = '';
+      (function step() {
+        if (i <= text.length) {
+          typedEl.textContent = text.slice(0, i);
+          i++;
+          setTimeout(step, 45);
+        } else resolve();
+      })();
+    });
+  }
+
+  function addBubble(text, sender) {
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble chat-bubble-' + sender;
+    bubble.textContent = text;
+    messagesEl.appendChild(bubble);
+  }
+
+  function addTypingIndicator() {
+    const typing = document.createElement('div');
+    typing.className = 'chat-typing';
+    typing.id = 'chatTypingIndicator';
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(typing);
+  }
+
+  function removeTypingIndicator() {
+    const typing = document.getElementById('chatTypingIndicator');
+    if (typing) typing.remove();
+  }
+
+  function sendMessage() {
+    sendBtn.classList.add('is-sending');
+    setTimeout(() => sendBtn.classList.remove('is-sending'), 500);
+  }
+
+  async function playCycle() {
+    messagesEl.innerHTML = '';
+    typedEl.textContent = '';
+
+    await typeIntoInput(QUESTION);
+    await wait(500);
+
+    sendMessage();
+    await wait(150);
+    typedEl.textContent = '';
+    addBubble(QUESTION, 'user');
+    await wait(700);
+
+    addTypingIndicator();
+    await wait(1300);
+    removeTypingIndicator();
+
+    addBubble(ANSWER, 'bot');
+    await wait(3200);
+  }
+
+  async function loop() {
+    while (true) {
+      if (document.visibilityState === 'visible') await playCycle();
+      else await wait(500);
+    }
+  }
+  loop();
+}
